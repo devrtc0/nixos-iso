@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-curl 'https://codeload.github.com/NixOS/nixpkgs/tar.gz/refs/heads/nixos-unstable' --output /tmp/nixpkgs.tar.gz
+curl 'https://codeload.github.com/NixOS/nixpkgs/tar.gz/refs/heads/nixos-22.05' --output /tmp/nixpkgs.tar.gz
 
 rm -rf nixpkgs
 mkdir nixpkgs
