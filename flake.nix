@@ -23,6 +23,7 @@
                 profile=$1
                 [ ! -d "./nixos" ] && git clone gh:devrtc0/nixos.git
                 cd nixos
+                git pull
                 [ ! -f "./hosts/$profile/disks.sh" ] && echo "No profile $profile" && exit -1
                 sudo sh ./hosts/$profile/disks.sh
                 [ $? -ne 0 ] && echo "Disk preparation failed" && exit -1
