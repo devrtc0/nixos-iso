@@ -14,7 +14,7 @@
           modules = [
             "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
             ({ pkgs, ... }:
-              let install = pkgs.writeShellScriptBin "install" ''
+              let install = pkgs.writeShellScriptBin "nixin" ''
                 if [ $# -ne 1 ]; then
                     echo 'wrong arguments number'
                     echo 'usage: install <profile aka host>'
