@@ -15,12 +15,28 @@
             "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
             ({ pkgs, ... }:
               let prepare = pkgs.writeShellScriptBin "prepare" ''
-                git clone https://github.com/devrtc0/nixos.git
+                git clone gh:devrtc0/nixos.git
                 cd nixos
               ''; in
               {
+                programs.git = {
+                  enable = true;
+                  package = pkgs.gitMinimal;
+                  config = {
+                    init = {
+                      defaultBranch = "main";
+                    };
+                    url = {
+                      "https://github.com/" = {
+                        insteadOf = [
+                          "gh:"
+                          "github:"
+                        ];
+                      };
+                    };
+                  };
+                };
                 environment.systemPackages = with pkgs; [
-                  gitMinimal
                   prepare
                 ];
               })
