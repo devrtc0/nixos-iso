@@ -14,9 +14,19 @@
           modules = [
             "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
             ({ pkgs, ... }:
-              let prepare = pkgs.writeShellScriptBin "prepare" ''
-                git clone gh:devrtc0/nixos.git
+              let prepare = pkgs.writeShellScriptBin "install" ''
+                if [ $# -ne 1 ]; then
+                    echo 'wrong arguments number'
+                    echo 'usage: install <profile aka host>'
+                    exit -1
+                fi
+                profile=$1
+                [ ! -d "./nixos" ] && git clone gh:devrtc0/nixos.git
                 cd nixos
+                [ ! -f "./hosts/$profile/disks.sh" ] && echo "No profile $profile" && exit -1
+                sudo sh ./hosts/$profile/disks.sh
+                [ $? -ne 0 ] && echo "Disk preparation failed" && exit -1
+                sudo nixos-install --flake .#$profile
               ''; in
               {
                 programs.git = {
@@ -24,7 +34,7 @@
                   package = pkgs.gitMinimal;
                   config = {
                     init = {
-                      defaultBranch = "main";
+                      defaultBranch = "master";
                     };
                     url = {
                       "https://github.com/" = {
@@ -37,7 +47,7 @@
                   };
                 };
                 environment.systemPackages = with pkgs; [
-                  prepare
+                  install
                 ];
               })
           ];
