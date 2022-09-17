@@ -27,7 +27,7 @@
                 [ ! -f "./hosts/$profile/disks.sh" ] && echo "No profile $profile" && exit -1
                 sudo sh ./hosts/$profile/disks.sh
                 [ $? -ne 0 ] && echo "Disk preparation failed" && exit -1
-                [ "$profile" = "vm ] && substituters='--option substituters http://10.0.2.2:4444/'
+                [ "$profile" = "vm" ] && substituters='--option substituters http://10.0.2.2:4444/'
                 sudo nixos-install --flake .#$profile $substituters
               ''; in
               {
