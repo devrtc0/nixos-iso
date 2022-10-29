@@ -15,7 +15,7 @@
             "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
             ({ pkgs, ... }:
               let install = pkgs.writeShellScriptBin "nixin" ''
-                if [ $# -ne 1 ]; then
+                if [ $# -lt 1 ]; then
                     echo 'wrong arguments number'
                     echo 'usage: install <profile aka host>'
                     exit -1
@@ -27,8 +27,7 @@
                 [ ! -f "./hosts/$profile/disks.sh" ] && echo "No profile $profile" && exit -1
                 sudo sh ./hosts/$profile/disks.sh
                 [ $? -ne 0 ] && echo "Disk preparation failed" && exit -1
-                vm_prefix=$(echo "$profile" | cut -c 1-2)
-                [ "$vm_prefix" = "vm" ] && substituters='--option substituters http://10.0.2.2:4444/'
+                [ ! -z "$2" ] && substituters="--option substituters http://$2:4444/"
                 sudo nixos-install --flake .#$profile $substituters
               ''; in
               {
