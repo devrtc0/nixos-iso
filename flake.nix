@@ -17,7 +17,7 @@
               let install = pkgs.writeShellScriptBin "gonix" ''
                 if [ $# -lt 1 ]; then
                     echo 'wrong arguments number'
-                    echo 'usage: gonix <profile aka host>' [<substituter ip address>]
+                    echo 'usage: gonix <profile aka host> [<substituter ip address>]'
                     exit -1
                 fi
                 profile=$1
