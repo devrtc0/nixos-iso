@@ -14,10 +14,10 @@
           modules = [
             "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
             ({ pkgs, ... }:
-              let install = pkgs.writeShellScriptBin "nixin" ''
+              let install = pkgs.writeShellScriptBin "gonix" ''
                 if [ $# -lt 1 ]; then
                     echo 'wrong arguments number'
-                    echo 'usage: install <profile aka host>'
+                    echo 'usage: gonix <profile aka host>' [<substituter ip address>]
                     exit -1
                 fi
                 profile=$1
